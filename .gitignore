@@ -1,1 +1,4 @@
 .idea
+/OrderProcessingService/bin
+/OrderProcessingService/obj
+/OrderProcessingService/appsettings.Development.json
