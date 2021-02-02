@@ -1,11 +1,12 @@
 using System;
+using Core.Interfaces;
 
-namespace WebApi.Models.Orders
+namespace Core.Entities
 {
     /// <summary>
     /// Класс для хранения заказов в базе. 
     /// </summary>
-    public class Order
+    public class Order : BaseEntity, IAggregateRoot
     {
         public int Id { get; set; }
         

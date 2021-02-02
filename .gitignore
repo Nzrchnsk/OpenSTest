@@ -1,5 +1,12 @@
 .idea
 /WebApi/bin
 /WebApi/obj
+
+/Core/bin
+/Core/obj
+
+/Infrastructure/bin
+/Infrastructure/obj
+
 /WebApi/appsettings.Development.json
 

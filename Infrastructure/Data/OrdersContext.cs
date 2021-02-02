@@ -1,16 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace WebApi.Data
+namespace Infrastructure.Data
 {
-    public class OrdersDbContext : DbContext
+    public class OrdersContext : DbContext
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public OrdersDbContext(DbContextOptions<OrdersDbContext> options) : base(options)
+        public OrdersContext(DbContextOptions<OrdersContext> options) : base(options)
         {
             // /Database.EnsureCreated();
         }
@@ -26,7 +25,7 @@ namespace WebApi.Data
             modelBuilder.HasAnnotation("Npgsql:ValueGenerationStrategy",
                 NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity<Models.Orders.Order>(entity =>
+            modelBuilder.Entity<Core.Entities.Order>(entity =>
             {
                 entity.ToTable("order", "orders");
                 entity.Property(e => e.Id)
@@ -57,11 +56,6 @@ namespace WebApi.Data
                     .HasColumnType("timestamp(0) with time zone")
                     .HasDefaultValueSql("NULL::timestamp with time zone");
             });
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql(Startup.Configuration.GetConnectionString("DefaultConnection"));
         }
     }
 }
