@@ -4,11 +4,6 @@ namespace Core.Entities
 {
     public class ProductJson : IAggregateRoot
     {
-        public ProductJson()
-        {
-            
-        }
-        
         public string Id { get; set; }
         
         public string Name { get; set; }
@@ -18,9 +13,7 @@ namespace Core.Entities
         public string Quantity { get; set; }
         
         public string PaidPrice { get; set; }
-        
-        public string UnitPrice { get; set; }
-        
+
         public string RemoteCode { get; set; }
         
         public string Description { get; set; }

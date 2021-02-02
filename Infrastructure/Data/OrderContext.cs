@@ -3,13 +3,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Data
 {
-    public class OrdersContext : DbContext
+    public class OrderContext : DbContext
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="options"></param>
-        public OrdersContext(DbContextOptions<OrdersContext> options) : base(options)
+        public OrderContext(DbContextOptions<OrderContext> options) : base(options)
         {
             // /Database.EnsureCreated();
         }

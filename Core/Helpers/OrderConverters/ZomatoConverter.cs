@@ -22,7 +22,6 @@ namespace Core.Helpers.OrderConverters
                 int quantity = int.Parse(product.Quantity);
 
                 product.PaidPrice = (paidPriceDouble / quantity).ToString(CultureInfo.InvariantCulture);
-                product.UnitPrice = (unitPriceDouble / quantity).ToString(CultureInfo.InvariantCulture);
             }
             
             order.ConvertedOrder = JsonSerializer.Serialize(sourceOrderJson);
