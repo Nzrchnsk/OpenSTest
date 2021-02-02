@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
@@ -24,9 +25,9 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("{systemType}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Get([FromRoute] string systemType, [FromBody] Order order)
+        public async Task<IActionResult> Get([FromRoute] string systemType, [FromBody] Order order)
         {
-            _orderRepository.AddAsync(new Core.Entities.Order
+            await _orderRepository.AddAsync(new Core.Entities.Order
             {
                 ConvertedOrder = null,
                 CreatedAt = order.CreatedAt,
