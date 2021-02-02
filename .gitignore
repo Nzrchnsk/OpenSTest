@@ -8,5 +8,8 @@
 /Infrastructure/bin
 /Infrastructure/obj
 
+/OrderProcessingService/bin
+/OrderProcessingService/obj
+
 /WebApi/appsettings.Development.json
 
