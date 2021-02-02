@@ -6,12 +6,6 @@ namespace WebApi.DTO
     [Serializable]
     public class Product
     {
-
-        public Product()
-        {
-            
-        }
-        
         [JsonPropertyName("id")]
         public string Id { get; set; }
         

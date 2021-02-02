@@ -15,9 +15,9 @@ namespace Infrastructure.Data
     /// <typeparam name="T">Entity type</typeparam>
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity, IAggregateRoot
     {
-        protected readonly OrdersContext Context;
+        protected readonly OrderContext Context;
 
-        public EfRepository(OrdersContext context)
+        public EfRepository(OrderContext context)
         {
             Context = context;
         }

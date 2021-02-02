@@ -5,6 +5,14 @@ namespace Core.Entities
 {
     public class OrderJson
     {
+        public OrderJson()
+        {
+        }
+        public OrderJson(List<ProductJson> products)
+        {
+            Products = products;
+        }
+
         [JsonPropertyName("orderNumber")]
         public string OrderNumber { get; set; }
         

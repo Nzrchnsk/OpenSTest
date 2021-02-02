@@ -8,8 +8,16 @@ namespace Core.Entities
     /// </summary>
     public class Order : BaseEntity, IAggregateRoot
     {
-        public int Id { get; set; }
-        
+        public Order()
+        {
+        }
+        public Order(int id, string systemType, string sourceOrder, DateTime createdAt)
+        {
+            base.Id = id;
+            SystemType = systemType;
+            SourceOrder = sourceOrder;
+            CreatedAt = createdAt;
+        }
         /// <summary>
         /// talabat, zomato, uber
         /// </summary>

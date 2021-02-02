@@ -11,7 +11,7 @@ namespace WebApi.DTO
         public string OrderNumber { get; set; }
         
         [JsonPropertyName("createdAt")]
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [JsonPropertyName("products")]
         public List<Product> Products { get; set; }

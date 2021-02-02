@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json;
 using Core.Entities;
@@ -27,7 +26,6 @@ namespace Core.Helpers.OrderConverters
                 }
                 if (unitPriceDouble > 0)
                 {
-                    product.UnitPrice = (unitPriceDouble * (-1)).ToString(CultureInfo.InvariantCulture);
                 }
             }
 

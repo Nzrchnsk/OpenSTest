@@ -1,8 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Core.Interfaces;
+using Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WebApi.DTO;
 
 namespace WebApi.Controllers
 {
@@ -11,18 +12,29 @@ namespace WebApi.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> _logger;
-        
-        public OrderController(ILogger<OrderController> logger)
+        private readonly IAsyncRepository<Core.Entities.Order>  _orderRepository;
+
+        public OrderController(ILogger<OrderController> logger, IAsyncRepository<Core.Entities.Order> orderRepository)
         {
             _logger = logger;
+            _orderRepository = orderRepository;
         }
-        
-        
+
+
         [HttpPost]
         [Route("{systemType}")]
-        public IActionResult Get([FromRoute]string systemType)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult Get([FromRoute] string systemType, [FromBody] Order order)
         {
-            return null;
+            _orderRepository.AddAsync(new Core.Entities.Order
+            {
+                ConvertedOrder = null,
+                CreatedAt = order.CreatedAt,
+                OrderNumber = order.OrderNumber,
+                SystemType = systemType,
+                SourceOrder = System.Text.Json.JsonSerializer.Serialize(order)
+            });
+            return NoContent();
         }
     }
 }
