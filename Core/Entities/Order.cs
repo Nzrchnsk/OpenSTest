@@ -1,5 +1,6 @@
 using System;
 using Core.Interfaces;
+using JetBrains.Annotations;
 
 namespace Core.Entities
 {
@@ -36,6 +37,7 @@ namespace Core.Entities
         /// <summary>
         /// Конвертированный приложением JSON заказа прилетевшего в апи
         /// </summary>
+        [CanBeNull]
         public string ConvertedOrder { get; set; }
 
         public DateTime CreatedAt { get; set; }
