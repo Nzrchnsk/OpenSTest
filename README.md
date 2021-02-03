@@ -24,5 +24,6 @@
 1. Создать базу данных postgres
 2. Поменять заглушки в файлах WebApi/appsettings.json и OrderProcessingService/appsettings.json
 3. Применить миграции - dotnet ef database update -c ordercontext -p ../Infrastructure/Infrastructure.csproj -s WebApi.csproj
-4. Имеется 2 точки входа WebApi и OrderProcessingService.
+4. Создать папку Logs в корне решения.
+5. Имеется 2 точки входа WebApi и OrderProcessingService.
 
