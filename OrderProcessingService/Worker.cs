@@ -3,9 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.Constants;
 using Core.Entities;
+using Core.Events;
 using Core.Helpers.OrderConverters;
 using Core.Interfaces;
+using Core.Services;
 using Core.Specifications;
+using Infrastructure.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,12 +17,16 @@ namespace OrderProcessingService
 {
     public class Worker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        // private readonly ILogger<Worker> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        public Worker(ILogger<Worker> logger, IServiceScopeFactory serviceScopeFactory)
+        private readonly EventsFactory _eventsFactory;
+        private IExceptionHandler _exceptionHandler;
+
+        public Worker(IServiceScopeFactory serviceScopeFactory, EventsFactory eventsFactory, IAppLogger<ExceptionHandler> exeptionHandlerLogger)
         {
-            _logger = logger;
+            _eventsFactory = eventsFactory;
             _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
+            _exceptionHandler = new ExceptionHandler(eventsFactory, exeptionHandlerLogger);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -33,18 +40,17 @@ namespace OrderProcessingService
                     // will be disposed at the end of the service scope (the current iteration).
                     using var scope = _serviceScopeFactory.CreateScope();
                     var orderRepository = scope.ServiceProvider.GetRequiredService<IAsyncRepository<Order>>();
-
-                    var getOrderTask = orderRepository.FirstAsync(new UnconvertedOrderSpecification());
-                    IOrderConverter orderConverter = ApplicationConstants.OrderHandlers[getOrderTask.Result.SystemType];
-                    orderRepository.UpdateAsync(orderConverter.Convert(getOrderTask.Result));
+                    var getOrder = await orderRepository.FirstAsync(new UnconvertedOrderSpecification());
+                    IOrderConverter orderConverter = ApplicationConstants.OrderHandlers[getOrder.SystemType];
+                    await orderRepository.UpdateAsync(orderConverter.Convert(getOrder));
                     // _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                    await Task.Delay(5000, stoppingToken);
                 }
                 catch (Exception exception)
                 {
-                    _logger.LogInformation(exception.Message);
-                    await Task.Delay(10000, stoppingToken);
+                    _eventsFactory.ExceptionThrow.Raise(exception);
                 }
+
+                await Task.Delay(5000, stoppingToken);
             }
         }
     }
